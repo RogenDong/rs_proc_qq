@@ -344,6 +344,10 @@ impl Handler for ClientHandler {
                     ResultProcess::ClientDisconnect
                 );
             }
+            QEvent::GroupPoke(event) => {
+                tracing::debug!(GroupPoke = ?event);
+                tracing::warn!("proc_qq 未处理 群戳一戳 事件");
+            }
         }
     }
 }

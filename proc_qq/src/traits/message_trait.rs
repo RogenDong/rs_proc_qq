@@ -164,7 +164,7 @@ impl MessageSendToSourceTrait for GroupMessageEvent {
     ) -> RQResult<UploadImage> {
         Ok(UploadImage::GroupImage(
             self.client
-                .upload_group_image(self.inner.group_code, data.into())
+                .upload_group_image(self.inner.group_code, &data.into())
                 .await?,
         ))
     }
@@ -175,7 +175,7 @@ impl MessageSendToSourceTrait for GroupMessageEvent {
         thumb: S,
     ) -> RQResult<VideoFile> {
         self.client
-            .upload_group_short_video(self.inner.group_code, data.into(), thumb.into())
+            .upload_group_short_video(self.inner.group_code, &data.into(), &thumb.into())
             .await
     }
 
@@ -187,7 +187,7 @@ impl MessageSendToSourceTrait for GroupMessageEvent {
     ) -> RQResult<MessageReceipt> {
         let group_audio = self
             .client
-            .upload_group_audio(self.inner.group_code, data.into(), codec)
+            .upload_group_audio(self.inner.group_code, &data.into(), codec)
             .await?;
         self.client
             .send_group_audio(self.inner.group_code, group_audio)
@@ -309,7 +309,7 @@ impl MessageSendToSourceTrait for FriendMessageEvent {
     ) -> RQResult<UploadImage> {
         Ok(UploadImage::FriendImage(
             self.client
-                .upload_friend_image(self.inner.from_uin, data.into())
+                .upload_friend_image(self.inner.from_uin, &data.into())
                 .await?,
         ))
     }
@@ -321,7 +321,7 @@ impl MessageSendToSourceTrait for FriendMessageEvent {
     ) -> RQResult<VideoFile> {
         // todo RICQ 并没有区分
         self.client
-            .upload_group_short_video(self.inner.from_uin, data.into(), thumb.into())
+            .upload_group_short_video(self.inner.from_uin, &data.into(), &thumb.into())
             .await
     }
 
@@ -333,7 +333,7 @@ impl MessageSendToSourceTrait for FriendMessageEvent {
     ) -> RQResult<MessageReceipt> {
         let friend_audio = self
             .client
-            .upload_friend_audio(self.inner.from_uin, data.into(), audio_duration)
+            .upload_friend_audio(self.inner.from_uin, &data.into(), audio_duration)
             .await?;
         self.client
             .send_friend_audio(self.inner.from_uin, friend_audio)
