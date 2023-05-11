@@ -26,9 +26,10 @@ QQ机器人框架 | [Telegram(电报)机器人框架](https://github.com/niuhuan
 
 ## 如何使用 / demo
 
-如果您使用密码登录，并且不是windows系统，使用安卓设备安装滑块助手，用于第一次登录的验证
+如果您使用密码登录，并且不是windows系统，则需要使用安卓设备安装滑块助手，用于第一次登录的验证(windows将会默认使用弹窗进行滑块，除非您禁用它)
 
 https://github.com/mzdluo123/TxCaptchaHelper
+
 
 ### 新建项目
 
@@ -51,6 +52,15 @@ rustup override set nightly
 ```toml
 proc_qq = "0.1"
 ```
+
+如果您使用的较新nightly的rust时，ricq可能会编译不通过，您需要使用git的方式引入。在ricq发布到到0.1.20时我们将去除这个提示.
+
+同样master分支具有一些新的features，以及使用了较高版本ricqAPI，还没有发布到 crates.io。
+
+```toml
+proc_qq = { git = "https://github.com/niuhuan/rust_proc_qq.git", branch = "master" }
+```
+
 
 ### 声明一个模块
 
@@ -209,11 +219,27 @@ async fn handle5(
 }
 ```
 
+同样的也支持文字和数字的组合
+
+```rust
+#[event(bot_command = "请{time}秒之后告诉我{text}")]
+async fn handle5(
+  _message: &MessageEvent,
+  time: i64,
+  text: String,
+) -> anyhow::Result<bool> {
+  println!("text : {:?} , time : {:?} ", text, time);
+  Ok(true)
+}
+```
+
+TODO:枚举 : "请{time}{unit:时|分|秒|天}之后告诉我{text}"
+
 #### 目前能匹配的类型
 ```
 String,  以及对应的 Vec<T>， Option<T>
 
-u8~u128, i8~i128, isize, usize, ; 以及对应的 Vec<T>， Option<T>
+u8~u128, i8~i128, isize, usize, char, bool, f32, f64; 以及对应的 Vec<T>， Option<T>
 
 ricq::msg::elem::{
   At, Face, MarketFace, Dice, FingerGuessing,
@@ -449,6 +475,12 @@ event.reply_text("你好").await?;
 #### 鸣谢
 
 - RICQ commiters
+
+
 - JetBrains IDEs
 
 ![](images/JetBrains.png)
+
+- GitHub Copilot
+
+![](images/GitHub-Copilot.png)
