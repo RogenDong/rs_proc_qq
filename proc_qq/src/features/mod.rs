@@ -12,3 +12,8 @@ pub use connect_handler::*;
 pub mod proxy;
 #[cfg(feature = "proxy")]
 pub use proxy::*;
+
+#[cfg(feature = "scheduler")]
+pub mod scheduler;
+#[cfg(feature = "scheduler")]
+pub use scheduler::*;
